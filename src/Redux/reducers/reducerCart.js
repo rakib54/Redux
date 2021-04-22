@@ -13,17 +13,22 @@ const initialState = {
 export const CartReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_TO_CART:
-            const newId = action.id;
-            const newCart = [...state.cart , newId];
-        
+            const newItem = {
+                productId: action.id,
+                name: action.name,
+                cartId: state.cart.length + 1 
+                
+            }
+            const newCart = [...state.cart, newItem];
+
             return {
-                products: state.products, cart: newCart
+                ...state, cart: newCart
             }
         case REMOVE_FROM_CART:
             const id = action.id
-            const remainingCart = state.cart.filter(item => !item ===id)
+            const remainingCart = state.cart.filter(item => item.cartId !== id)
             return {
-                cart :remainingCart
+                ...state, cart: remainingCart
             }
         default:
             return state
